@@ -14,11 +14,12 @@
         <f:title>
             <f:DynamicPageTitle id="_IDGenDynamicPageTitle1">
                 <f:heading>
-                    <Title id="_IDGenTitle1" text="Schedule Line Agreement"/>
+                    <!-- Title content -->
                 </f:heading>
                 <f:actions>
                     <ToolbarSpacer id="_IDGenToolbarSpacer3" width="0px"/>
-                    <Button id="editButton" text="Edit" type="Default" press="onEditPress"/>
+                    <Button id="createButton" text="Create" type="Default" press="onCreatePress"/>
+                    <Button id="editButton" text="Edit" type="Default" press="onEditPress"/>                
                     <Button id="MassUpload" text="MassUpload" press="onUploadPress"/>
                 </f:actions>
             </f:DynamicPageTitle>
@@ -44,6 +45,12 @@
                                 </fb:control>
                             </fb:FilterGroupItem>
                         </fb:filterGroupItems>
+                        <!-- <fb:toolbar>
+                            <Toolbar id="_IDGenToolbar1">
+                                <ToolbarSpacer id="_IDGenToolbarSpacer4"/>
+                                <Button id="searchButtonFB" text="Go" type="Emphasized" press="onPressSearch"/>
+                            </Toolbar>
+                        </fb:toolbar> -->
                     </fb:FilterBar>
                     <Text id="titleId" text="" class="sapThemeHighlight"/>
                 </f:content>
@@ -52,7 +59,8 @@
         <f:content>
             <ScrollContainer id="_IDGenScrollContainer1" vertical="true" height="100%">
                 <Table
-                    id="SchedulingAgreementDetail"                    
+                    id="SchedulingAgreementDetail"
+                    mode="SingleSelect"
                     items="{path: '/A_SchAgrmtSchLine', parameters: {expand: 'to_SchedgAgrmtSubcontrgCompTP'}}"
                     fixedLayout="false"
                     alternateRowColors="true"
@@ -64,6 +72,9 @@
                     updateStarted="onUpdateStarted"
                     updateFinished="onUpdateFinished">
                     <columns>
+                        <Column id="c0" minScreenWidth="Tablet" demandPopin="true">
+                            <CheckBox id="_IDGenCheckBox1" select="onSelectCheckBox"/>
+                        </Column>
                         <Column id="c1" minScreenWidth="Tablet" demandPopin="true">
                             <Text id="_IDGenText1" text="Scheduling Agreement"/>
                         </Column>
@@ -116,6 +127,7 @@
                     <items>
                         <ColumnListItem id="CL1" type="Navigation" press="onColumnListPress" vAlign="Middle">
                             <cells>
+                                <CheckBox id="selectCheckBox" select="onSelectCheckBox"/>
                                 <Text id="_IDGenText17" text="{SchedulingAgreement}"/>
                                 <Text id="_IDGenText18" text="{SchedulingAgreementItem}"/>
                                 <Text id="_IDGenText19" text="{ScheduleLine}"/>

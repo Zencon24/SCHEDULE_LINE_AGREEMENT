@@ -1,29 +1,48 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/m/MessageBox",
-    "sap/ui/core/Fragment",
-    "sap/ui/model/json/JSONModel",
-    "sap/ui/model/Filter",
-    "sap/ui/model/FilterOperator"
-], function (Controller, MessageBox, Fragment, JSONModel, Filter, FilterOperator) {
+    "sap/ui/core/Fragment"
+], function (Controller, MessageBox, Fragment) {
     "use strict";
 
     return Controller.extend("scheduleanu.controller.Schedule", {
         onInit: function () {
             // Initialize the fragment
             this._oEditDialog = null;
-            
-            // Initialize the filter model
-            var oFilterModel = new JSONModel({
-                SchedulingAgreement: "",
-                SchedulingAgreementItem: "",
-                ScheduleLine: ""
-            });
-            this.getView().setModel(oFilterModel, "filters");
         },
 
         onEditPress: function() {
-            this.getOwnerComponent().getRouter().navTo("Routeedit");
+            var table = this.byId("SchedulingAgreementDetail");
+            var selectedItems = table.getSelectedItems();
+
+            if (selectedItems.length === 0) {
+                // Display message to user indicating that they need to select at least one item for editing
+                MessageBox.error("Please select at least one item to edit.");
+                return;
+            }
+
+            var selectedItem = selectedItems[0]; // Assuming single selection for simplicity
+            var context = selectedItem.getBindingContext();
+            var selectedData = context.getObject();
+
+            // Create a JSON model to bind the selected data
+            var oModel = new sap.ui.model.json.JSONModel(selectedData);
+            this.getView().setModel(oModel, "editData");
+
+            // Open the dialog
+            if (!this._oEditDialog) {
+                Fragment.load({
+                    id: this.getView().getId(),
+                    name: "schedule.view.EditDialog",
+                    controller: this
+                }).then(function (oDialog) {
+                    this._oEditDialog = oDialog;
+                    this.getView().addDependent(this._oEditDialog);
+                    this._oEditDialog.open();
+                }.bind(this));
+            } else {
+                this._oEditDialog.open();
+            }
         },
 
         onUploadPress: function() {
@@ -53,30 +72,9 @@ sap.ui.define([
             this._oEditDialog.close();
         },
 
-        onPressSearch: function () {
-            var oView = this.getView();
-            var oTable = oView.byId("SchedulingAgreementDetail");
-            var oFilterModel = oView.getModel("filters");
-            var aFilters = [];
-
-            var sSchedulingAgreement = oFilterModel.getProperty("/SchedulingAgreement");
-            if (sSchedulingAgreement) {
-                aFilters.push(new Filter("SchedulingAgreement", FilterOperator.Contains, sSchedulingAgreement));
-            }
-
-            var sSchedulingAgreementItem = oFilterModel.getProperty("/SchedulingAgreementItem");
-            if (sSchedulingAgreementItem) {
-                aFilters.push(new Filter("SchedulingAgreementItem", FilterOperator.Contains, sSchedulingAgreementItem));
-            }
-
-            var sScheduleLine = oFilterModel.getProperty("/ScheduleLine");
-            if (sScheduleLine) {
-                aFilters.push(new Filter("ScheduleLine", FilterOperator.Contains, sScheduleLine));
-            }
-
-            // Apply the filters to the table binding
-            var oBinding = oTable.getBinding("items");
-            oBinding.filter(aFilters);
-        }
     });
 });
+
+
+        
+        
