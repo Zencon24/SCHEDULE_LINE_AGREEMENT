@@ -1,14 +1,25 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/m/MessageBox",
-    "sap/ui/core/Fragment"
-], function (Controller, MessageBox, Fragment) {
+    "sap/ui/core/Fragment",
+    "sap/ui/model/json/JSONModel",
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator"
+], function (Controller, MessageBox, Fragment, JSONModel, Filter, FilterOperator) {
     "use strict";
 
     return Controller.extend("scheduleanu.controller.Schedule", {
         onInit: function () {
             // Initialize the fragment
             this._oEditDialog = null;
+            
+            // Initialize the filter model
+            var oFilterModel = new JSONModel({
+                SchedulingAgreement: "",
+                SchedulingAgreementItem: "",
+                ScheduleLine: ""
+            });
+            this.getView().setModel(oFilterModel, "filters");
         },
 
         onEditPress: function() {
@@ -42,9 +53,30 @@ sap.ui.define([
             this._oEditDialog.close();
         },
 
+        onPressSearch: function () {
+            var oView = this.getView();
+            var oTable = oView.byId("SchedulingAgreementDetail");
+            var oFilterModel = oView.getModel("filters");
+            var aFilters = [];
+
+            var sSchedulingAgreement = oFilterModel.getProperty("/SchedulingAgreement");
+            if (sSchedulingAgreement) {
+                aFilters.push(new Filter("SchedulingAgreement", FilterOperator.Contains, sSchedulingAgreement));
+            }
+
+            var sSchedulingAgreementItem = oFilterModel.getProperty("/SchedulingAgreementItem");
+            if (sSchedulingAgreementItem) {
+                aFilters.push(new Filter("SchedulingAgreementItem", FilterOperator.Contains, sSchedulingAgreementItem));
+            }
+
+            var sScheduleLine = oFilterModel.getProperty("/ScheduleLine");
+            if (sScheduleLine) {
+                aFilters.push(new Filter("ScheduleLine", FilterOperator.Contains, sScheduleLine));
+            }
+
+            // Apply the filters to the table binding
+            var oBinding = oTable.getBinding("items");
+            oBinding.filter(aFilters);
+        }
     });
 });
-
-
-        
-        
