@@ -1,0 +1,154 @@
+<mvc:View
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:tnt="sap.tnt"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:svm="sap.ui.comp.smartvariants"
+    controllerName="scheduleanu.controller.Schedule"
+    xmlns:l="sap.ui.layout"
+    height="100%">
+
+    <f:DynamicPage id="_IDGenDynamicPage1">
+        <f:title>
+            <f:DynamicPageTitle id="_IDGenDynamicPageTitle1">
+                <f:heading>
+                    <Title id="_IDGenTitle1" text="Schedule Line Agreement"/>
+                </f:heading>
+                <f:actions>
+                    <ToolbarSpacer id="_IDGenToolbarSpacer3" width="0px"/>
+                    <!-- <Button id="createButton" text="Create" type="Default" press="onCreatePress"/> -->
+                    <Button id="editButton" text="Edit" type="Default" press="onEditPress"/>                
+                    <Button id="MassUpload" text="MassUpload" press="onUploadPress"/>
+                </f:actions>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:header>
+            <f:DynamicPageHeader id="_IDGenDynamicPageHeader1" pinnable="true">
+                <f:content>
+                    <fb:FilterBar id="filterbar" persistencyKey="myPersKey" useToolbar="false" search=".onPressSearch" filterChange=".onFilterChange" afterVariantLoad=".onAfterVariantLoad" showFilterConfiguration="true" showGoOnFB="true">
+                        <fb:filterGroupItems>
+                            <fb:FilterGroupItem id="_IDGenFilterGroupItem1" name="SchedulingAgreement" label="Scheduling Agreement" groupName="Group1" visibleInFilterBar="true">
+                                <fb:control>
+                                    <Input id="_IDGenInput1" width="40%" value="{filters>/SchedulingAgreement}" />
+                                </fb:control>
+                            </fb:FilterGroupItem>
+                            <fb:FilterGroupItem id="_IDGenFilterGroupItem2" name="SchedulingAgreementItem" label="Scheduling Agreement Item" groupName="Group1" visibleInFilterBar="true">
+                                <fb:control>
+                                    <Input id="_IDGenInput2" width="40%" value="{filters>/SchedulingAgreementItem}" />
+                                </fb:control>
+                            </fb:FilterGroupItem>
+                            <fb:FilterGroupItem id="_IDGenInput3" name="ScheduleLine" label="Schedule Line" groupName="Group1" visibleInFilterBar="true">
+                                <fb:control>
+                                    <Input id="ScheduleLine" width="40%" value="{filters>/ScheduleLine}" />
+                                </fb:control>
+                            </fb:FilterGroupItem>
+                        </fb:filterGroupItems>
+                        <!-- <fb:toolbar>
+                            <Toolbar id="_IDGenToolbar1">
+                                <ToolbarSpacer id="_IDGenToolbarSpacer4"/>
+                                <Button id="searchButtonFB" text="Go" type="Emphasized" press="onPressSearch"/>
+                            </Toolbar>
+                        </fb:toolbar> -->
+                    </fb:FilterBar>
+                    <Text id="titleId" text="" class="sapThemeHighlight"/>
+                </f:content>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <ScrollContainer id="_IDGenScrollContainer1" vertical="true" height="100%">
+                <Table
+                    id="SchedulingAgreementDetail"
+                    
+                    items="{path: '/A_SchAgrmtSchLine', parameters: {expand: 'to_SchedgAgrmtSubcontrgCompTP'}}"
+                    fixedLayout="false"
+                    alternateRowColors="true"
+                    sticky="HeaderToolbar,ColumnHeaders"
+                    growing="true"
+                    growingThreshold="20"
+                    growingScrollToLoad="false"
+                    selectionChange="onChangeSelection"
+                    updateStarted="onUpdateStarted"
+                    updateFinished="onUpdateFinished">
+                    <columns>
+                        <!-- <Column id="c0" minScreenWidth="Tablet" demandPopin="true">
+                            <CheckBox id="_IDGenCheckBox1" select="onSelectCheckBox"/>
+                        </Column> -->
+                        <Column id="c1" minScreenWidth="Tablet" demandPopin="true">
+                            <Text id="_IDGenText1" text="Scheduling Agreement"/>
+                        </Column>
+                        <Column id="c2" minScreenWidth="Tablet" demandPopin="true">
+                            <Text id="_IDGenText2" text="Scheduling Agreement Item"/>
+                        </Column>
+                        <Column id="c3" minScreenWidth="Tablet" demandPopin="true">
+                            <Text id="_IDGenText3" text="Schedule Line"/>
+                        </Column>
+                        <Column id="c4" minScreenWidth="Tablet" demandPopin="true">
+                            <Text id="_IDGenText4" text="Delivery Date Category"/>
+                        </Column>
+                        <Column id="c5" minScreenWidth="Tablet" demandPopin="true">
+                            <Text id="_IDGenText5" text="Delivery Date"/>
+                        </Column>
+                        <Column id="c6" minScreenWidth="Tablet" demandPopin="true">
+                            <Text id="_IDGenText6" text="Stat.-Rel. Del. Date"/>
+                        </Column>
+                        <Column id="c7" minScreenWidth="Tablet" demandPopin="true">
+                            <Text id="_IDGenText7" text="Delivery Time"/>
+                        </Column>
+                        <Column id="c8" minScreenWidth="Tablet" demandPopin="true">
+                            <Text id="_IDGenText8" text="Order Unit"/>
+                        </Column>
+                        <Column id="c9" minScreenWidth="Tablet" demandPopin="true">
+                            <Text id="_IDGenText9" text="Scheduled Quantity"/>
+                        </Column>
+                        <Column id="c10" minScreenWidth="Tablet" demandPopin="true">
+                            <Text id="_IDGenText10" text="Purchase Requisition"/>
+                        </Column>
+                        <Column id="c11" minScreenWidth="Tablet" demandPopin="true">
+                            <Text id="_IDGenText11" text="Item of Requisition"/>
+                        </Column>
+                        <Column id="c12" minScreenWidth="Tablet" demandPopin="true">
+                            <Text id="_IDGenText12" text="Quantity Delivered"/>
+                        </Column>
+                        <Column id="c13" minScreenWidth="Tablet" demandPopin="true">
+                            <Text id="_IDGenText13" text="Fixing Indicator"/>
+                        </Column>
+                        <Column id="c14" minScreenWidth="Tablet" demandPopin="true">
+                            <Text id="_IDGenText14" text="No. Rem./Expediters"/>
+                        </Column>
+                        <Column id="c15" minScreenWidth="Tablet" demandPopin="true">
+                            <Text id="_IDGenText15" text="Previous Quantity"/>
+                        </Column>
+                        <Column id="c16" minScreenWidth="Tablet" demandPopin="true">
+                            <Text id="_IDGenText16" text="Creation Indicator"/>
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem id="CL1" type="Navigation" press="onColumnListPress" vAlign="Middle">
+                            <cells>
+                                <!-- <CheckBox id="selectCheckBox" select="onSelectCheckBox"/> -->
+                                <Text id="_IDGenText17" text="{SchedulingAgreement}"/>
+                                <Text id="_IDGenText18" text="{SchedulingAgreementItem}"/>
+                                <Text id="_IDGenText19" text="{ScheduleLine}"/>
+                                <Text id="_IDGenText20" text="{DelivDateCategory}"/>
+                                <Text id="_IDGenText21" text="{ScheduleLineDeliveryDate}"/>
+                                <Text id="_IDGenText22" text="{SchedLineStscDeliveryDate}"/>
+                                <Text id="_IDGenText23" text="{ScheduleLineDeliveryTime}"/>
+                                <Text id="_IDGenText24" text="{OrderQuantityUnit}"/>
+                                <Text id="_IDGenText25" text="{ScheduleLineOrderQuantity}"/>
+                                <Text id="_IDGenText26" text="{PurchaseRequisition}"/>
+                                <Text id="_IDGenText27" text="{PurchaseRequisitionItem}"/>
+                                <Text id="_IDGenText28" text="{RoughGoodsReceiptQty}"/>
+                                <Text id="_IDGenText29" text="{= ${ScheduleLineIsFixed} ? 'Fixed' : 'Not Fixed'}"/>
+                                <Text id="_IDGenText30" text="{NoOfRemindersOfScheduleLine}"/>
+                                <Text id="_IDGenText31" text="{PrevDelivQtyOfScheduleLine}"/>
+                                <Text id="_IDGenText32" text="{SourceOfCreation}"/>
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </ScrollContainer>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

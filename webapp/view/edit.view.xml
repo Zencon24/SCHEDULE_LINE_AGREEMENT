@@ -1,0 +1,81 @@
+<mvc:View
+    controllerName="scheduleanu.controller.Edit"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.f"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:core="sap.ui.core"
+    class="viewPadding">
+
+    <f:DynamicPage id="dynamicPage" title="Schedule Line Agreement">
+        <f:title>
+            <f:DynamicPageTitle>
+                <f:heading>
+                    <Title text="Schedule Line Agreement"/>
+                </f:heading>
+                <f:actions>
+                    <Button id="saveButton" text="Save" type="Emphasized" press="onSave"/>
+                    <Button id="cancelButton" text="Cancel" press="onCancel"/>
+                </f:actions>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:header>
+            <f:DynamicPageHeader>
+                <fb:FilterBar id="filterBar" search=".onSearch">
+                    <fb:filterGroupItems>
+                        <fb:FilterGroupItem name="SchedulingAgreement" label="Scheduling Agreement" groupName="Group1" visibleInFilterBar="true">
+                            <fb:control>
+                                <Input id="inputSchedulingAgreement" width="40%" value="{filters>/SchedulingAgreement}" />
+                            </fb:control>
+                        </fb:FilterGroupItem>
+                    </fb:filterGroupItems>
+                </fb:FilterBar>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <Table
+                id="table"
+                items="{path: '/A_SchAgrmtSchLine', parameters: {expand: 'to_SchedgAgrmtSubcontrgCompTP'}}"
+                growing="true"
+                
+                growingScrollToLoad="true"
+                updateFinished="onUpdateFinished">
+                <headerToolbar>
+                    <Toolbar>
+                        <Title text="Schedule Agreement Details"/>
+                    </Toolbar>
+                </headerToolbar>
+                <columns>
+                    <Column>
+                        <Text text="Scheduling Agreement"/>
+                    </Column>
+                    <Column>
+                        <Text text="Scheduling Agreement Item"/>
+                    </Column>
+                    <Column>
+                        <Text text="Schedule Line"/>
+                    </Column>
+                    <Column>
+                        <Text text="Delivery Date"/>
+                    </Column>
+                    <Column>
+                        <Text text="Order Quantity"/>
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Input value="{SchedulingAgreement}"/>
+                            <Input value="{SchedulingAgreementItem}"/>
+                            <Input value="{ScheduleLine}"/>
+                            <DatePicker value="{path: 'DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' }}"/>
+                            <Input value="{OrderQuantity}"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </f:content>
+    </f:DynamicPage>
+
+</mvc:View>
